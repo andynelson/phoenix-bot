@@ -38,7 +38,7 @@ export const execute = async () => {
   const marketPubkey = new PublicKey(
     "4DoNfFBfF7UokCC2FQzriy7yHK6DY6NVdYpuekQ5pRgg"
   );
-  const endpoint = "https: //api.mainnet-beta.solana.com";
+  const endpoint = "https://api.mainnet-beta.solana.com";
   const connection = new Connection(endpoint);
 
   // Create a Phoenix Client
@@ -57,6 +57,7 @@ export const execute = async () => {
     marketState,
     traderKeypair.publicKey
   );
+  console.log("Setup New Maker Instructions: ", JSON.stringify(setupNewMakerIxs));
 
   if (setupNewMakerIxs.length !== 0) {
     const setup = new Transaction().add(...setupNewMakerIxs);
@@ -80,6 +81,8 @@ export const execute = async () => {
       marketPubkey.toString(),
       traderKeypair.publicKey
     );
+    console.log("Cancelling all orders...", JSON.stringify(cancelAll));
+
     // Note we could bundle this with the place order transaction below, but we choose to cancel
     // separately since getting the price could take a non-deterministic amount of time
     try {
